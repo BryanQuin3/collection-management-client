@@ -10,14 +10,14 @@ export type User = {
 };
 
 export type Customer = {
-  id: string;
+  _id: string;
   name: string;
   email: string;
   image_url: string;
 };
 
 export type Invoice = {
-  id: string;
+  _id: string;
   customer_id: string;
   amount: number;
   date: string;
@@ -45,7 +45,7 @@ export type LatestInvoiceRaw = Omit<LatestInvoice, 'amount'> & {
 };
 
 export type InvoicesTable = {
-  id: string;
+  _id: string;
   customer_id: string;
   name: string;
   email: string;
@@ -66,7 +66,7 @@ export type CustomersTableType = {
 };
 
 export type FormattedCustomersTable = {
-  id: string;
+  _id: string;
   name: string;
   email: string;
   image_url: string;
@@ -76,13 +76,57 @@ export type FormattedCustomersTable = {
 };
 
 export type CustomerField = {
-  id: string;
+  _id: string;
   name: string;
 };
 
+export type CustomerForm = {
+  name: string;
+  email: string;
+  image_url: string;
+};
+
 export type InvoiceForm = {
-  id: string;
   customer_id: string;
   amount: number;
   status: 'pending' | 'paid';
+};
+
+export type State = {
+  errors?: {
+    customerId?: string[];
+    amount?: string[];
+    status?: string[];
+  };
+  message?: string | null;
+};
+
+
+export type CustomerState = {
+  errors?: {
+    name?: string[];
+    email?: string[];
+    image_url?: string[];
+  };
+  message?: string | null;
+};
+
+export type UserState = {
+  errors?: {
+    email?: string[];
+    password?: string[];
+  };
+  message?: string | null;
+};
+
+export type UserForm = {
+  email: string;
+  password: string;
+};
+
+export type CreateUserForm = {
+  name: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
 };

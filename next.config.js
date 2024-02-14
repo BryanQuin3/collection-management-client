@@ -1,4 +1,15 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
-
-module.exports = nextConfig;
+module.exports = {
+    images: {
+      remotePatterns: [
+        {
+          hostname: 'cdn.leonardo.ai',
+        }
+      ],
+    },
+    exportPathMap:function(){
+      return{
+        '/':{page:'/login'},
+      }
+  }
+}
