@@ -90,7 +90,8 @@ export async function createCustomer (prevState:CustomerState,formData: FormData
     if (response.status !== 201) throw new Error('Failed to create customer.')
   } catch (error) {
     return {
-      message: error
+      ...prevState,
+      message: 'Failed to create customer.'
     }
   }
   revalidatePath('/dashboard/invoices/create')
