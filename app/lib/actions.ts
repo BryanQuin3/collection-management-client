@@ -208,6 +208,24 @@ export async function updateInvoice(id:string, prevState:State, formData : FormD
   
 }
 
+export async function fetchInvoicesPages (query: string){
+  try {
+    const response = await fetch(`${BASE_URL}/invoices/count?query=${query}`,
+    {method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+    const count  = await response.json()
+    const ITEMS_PER_PAGE = 6;
+    const totalPages = Math.ceil(Number(count) / ITEMS_PER_PAGE)
+    revalidatePath('/dashboard/invoices')
+    return totalPages
+  } catch (error) {
+    throw new Error('Failed to fetch total number of invoices.')
+  }
+}
+
 export async function login(prevState: UserState, formData: FormData){
   const user: UserForm = {
       email: formData.get('email') as string,
