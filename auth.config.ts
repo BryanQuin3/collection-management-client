@@ -5,7 +5,7 @@ export const authConfig = {
     signIn: '/login',
   },
   callbacks: {
-    authorized({ auth, request: { cookies,nextUrl } }) {
+    authorized({request: { cookies,nextUrl } }) {
       const isLoggedIn = !!cookies.get('usertoken');
       const isOnDashboard = nextUrl.pathname.startsWith('/dashboard');
       if (isOnDashboard) {

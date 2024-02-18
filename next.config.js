@@ -7,9 +7,13 @@ module.exports = {
         }
       ],
     },
-    exportPathMap:function(){
-      return{
-        '/':{page:'/login'},
-      }
-  }
+    async redirects() {
+      return [
+        {
+          source: '/',
+          destination: '/login',
+          permanent: true,
+        },
+      ]
+    }
 }
