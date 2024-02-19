@@ -3,7 +3,7 @@ module.exports = {
     images: {
       remotePatterns: [
         {
-          hostname: 'cdn.leonardo.ai',
+          hostname: '*',
         }
       ],
     },
