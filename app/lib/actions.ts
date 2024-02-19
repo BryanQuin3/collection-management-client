@@ -103,6 +103,7 @@ export async function createCustomer (prevState:CustomerState,formData: FormData
 export async function fetchCustomers() {
   try {
     const customers = await fetch(`${BASE_URL}/customers`)
+    revalidatePath('/dashboard/invoices/create')
     return customers.json()
   } catch (error) {
     return {
