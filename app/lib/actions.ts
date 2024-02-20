@@ -91,19 +91,21 @@ export async function createCustomer (prevState:CustomerState,formData: FormData
     revalidatePath('/dashboard/invoices/create')
     revalidatePath('/dashboard')
     revalidatePath('/dashboard/customers')
-    redirect('/dashboard/customers')
   } catch (error) {
+    console.log(error);
+    
     return {
       ...prevState,
       message: 'Failed to create customer.'
     }
   }
+  redirect('/dashboard/customers')
+
 }
 
 export async function fetchCustomers() {
   try {
     const customers = await fetch(`${BASE_URL}/customers`)
-    revalidatePath('/dashboard/invoices/create')
     return customers.json()
   } catch (error) {
     return {
