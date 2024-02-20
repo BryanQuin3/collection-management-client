@@ -97,9 +97,8 @@ export async function createCustomer (prevState:CustomerState,formData: FormData
       message: 'Failed to create customer.'
     }
   }
-  revalidatePath('/dashboard/invoices/create')
   revalidatePath('/dashboard')
-  revalidatePath('/dashboard/customers')
+  revalidatePath('/dashboard/invoices/create')
   redirect('/dashboard/customers')
 
 }
