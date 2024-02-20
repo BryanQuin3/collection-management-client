@@ -98,7 +98,7 @@ export async function createCustomer (prevState:CustomerState,formData: FormData
     }
   }
   revalidatePath('/dashboard')
-  revalidatePath('/dashboard/invoices/create')
+  revalidatePath('/dashboard/invoices')
   redirect('/dashboard/customers')
 
 }
