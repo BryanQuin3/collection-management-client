@@ -52,7 +52,16 @@ export default function Form() {
                         Image URL
                     </label>
                     <div className='relative mt-2 rounded-md'>
-                        <input id='image_url' name='image_url' type='text' placeholder=' https://www.example.com/image.jpg' className='peer block w-full rounded-md border border-gray-200 py-2 pl-4 text-sm outline-2 placeholder:text-gray-500' aria-describedby='image-error' required />
+                        <input
+                            id='image_url'
+                            name='image_url'
+                            type='text'
+                            placeholder=' https://www.example.com/image.jpg'
+                            className='peer block w-full rounded-md border border-gray-200 py-2 pl-4 text-sm outline-2 placeholder:text-gray-500' aria-describedby='image-error'
+                            required
+                            pattern="\.(jpg|jpeg|png|gif|bmp|webp|avif)$"
+                            title="Please enter a valid image URL (jpg, jpeg, png, gif, bmp, webp, avif)"
+                        />
                     </div>
                 </div>
             </div>
