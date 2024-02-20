@@ -88,9 +88,7 @@ export async function createCustomer (prevState:CustomerState,formData: FormData
       body: JSON.stringify(customer)
     })
     if (response.status !== 201) throw new Error('Failed to create customer.')
-    // revalidatePath('/dashboard/invoices/create')
-    revalidatePath('/dashboard')
-    revalidatePath('/dashboard/customers')
+    
   } catch (error) {
     console.log(error);
     
@@ -99,6 +97,9 @@ export async function createCustomer (prevState:CustomerState,formData: FormData
       message: 'Failed to create customer.'
     }
   }
+  revalidatePath('/dashboard/invoices/create')
+  revalidatePath('/dashboard')
+  revalidatePath('/dashboard/customers')
   redirect('/dashboard/customers')
 
 }
