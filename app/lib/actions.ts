@@ -90,8 +90,6 @@ export async function createCustomer (prevState:CustomerState,formData: FormData
     if (response.status !== 201) throw new Error('Failed to create customer.')
     
   } catch (error) {
-    console.log(error);
-    
     return {
       ...prevState,
       message: 'Failed to create customer.'
@@ -106,7 +104,8 @@ export async function createCustomer (prevState:CustomerState,formData: FormData
 export async function fetchCustomers() {
   try {
     const customers = await fetch(`${BASE_URL}/customers`)
-    return customers.json()
+    const data = await customers.json()
+    return data
   } catch (error) {
     return {
       message: 'Failed to fetch customers.'
@@ -300,7 +299,6 @@ export async function register(prevState: UserState, formData: FormData) {
       },
       body: JSON.stringify(user)
     })
-    console.log(response.ok);
     if (!response.ok) throw new Error('Failed to register user.')
     
   } catch (error) {
