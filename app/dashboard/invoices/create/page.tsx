@@ -4,8 +4,7 @@ import Breadcrumbs from '@/app/ui/invoices/breadcrumbs'
 import { fetchCustomers } from '@/app/lib/actions'
 
 export default async function Page() {
-    const customers = await fetchCustomers()
-
+    const [customers] = await Promise.all([fetchCustomers()])
     return (
         <main>
             <Breadcrumbs
