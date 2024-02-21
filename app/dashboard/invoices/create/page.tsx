@@ -1,8 +1,11 @@
 /* eslint-disable react/jsx-indent-props */
 import Form from '@/app/ui/invoices/create-form'
 import Breadcrumbs from '@/app/ui/invoices/breadcrumbs'
+import { fetchCustomers } from '@/app/lib/actions'
 
 export default async function Page() {
+    const customers = await fetchCustomers()
+
     return (
         <main>
             <Breadcrumbs
@@ -15,7 +18,7 @@ export default async function Page() {
                     }
                 ]}
             />
-            <Form />
+            <Form customers={customers} />
         </main>
     )
 }
