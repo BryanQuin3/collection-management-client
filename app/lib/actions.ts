@@ -2,8 +2,9 @@
 
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
-import { CreateUserForm, CustomerForm,CustomerState,FormattedCustomersTable, Invoice, InvoiceForm, InvoicesTable, State, UserForm, UserState } from './definitions'
+import { CreateUserForm,CustomerState,FormattedCustomersTable, Invoice, InvoiceForm, InvoicesTable, State, UserForm, UserState } from './definitions'
 import { cookies } from 'next/headers'
+import { z } from 'zod'
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
 
@@ -73,13 +74,44 @@ export async function fetchFilteredCustomers(query?:string): Promise<FormattedCu
   }
 }
 
-export async function createCustomer (prevState:CustomerState,formData: FormData) {
-  const customer:CustomerForm = {
-    name: formData.get('name') as string,
-    email: formData.get('email') as string,
-    image_url: formData.get('image_url') as string
-  }
+export async function verifyImageURL(image_url: string) {
   try {
+    const response = await fetch(image_url)
+    if (!response.ok) {
+      throw new Error('Invalid image URL.')
+    }
+    const contentType = response.headers.get('content-type');
+    if (!contentType || !contentType.startsWith('image/')) {
+      throw new Error('The URL does not point to an image.');
+    }
+  } catch (error) {
+    return {
+      message: 'Invalid image URL.'
+    }
+  }
+}
+
+const CustomerSchema = z.object({
+  name: z.string(),
+  email: z.string(),
+  image_url: z.string().url({message: 'Invalid image URL.'})
+})
+
+export async function createCustomer (prevState:CustomerState,formData: FormData) {
+  try {
+    const customer = CustomerSchema.parse({
+      name: formData.get('name') as string,
+      email: formData.get('email') as string,
+      image_url: formData.get('image_url') as string
+    })
+    //verify image url
+    const result = await verifyImageURL(customer.image_url)
+    if (result?.message) {
+      return {
+        ...prevState,
+        message: result.message
+      }
+    }
     const response = await fetch(`${BASE_URL}/customers`, {
       method: 'POST',
       headers: {
