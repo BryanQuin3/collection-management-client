@@ -104,7 +104,6 @@ export async function createCustomer (prevState:CustomerState,formData: FormData
 export async function fetchCustomers() {
   try {
     const customers = await fetch(`${BASE_URL}/customers`)
-    console.log(customers)
     const data = await customers.json()
     return data
   } catch (error) {
