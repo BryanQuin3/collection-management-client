@@ -137,6 +137,9 @@ export async function fetchCustomers() {
   try {
     const customers = await fetch(`${BASE_URL}/customers`)
     const data = await customers.json()
+    // delete cache and revalidate path to update the data
+    revalidatePath('/dashboard')
+    revalidatePath('/dashboard/invoices/create')
     return data
   } catch (error) {
     return {
