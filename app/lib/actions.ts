@@ -324,12 +324,7 @@ export async function logout() {
 }
 
 export async function register(prevState: UserState, formData: FormData) {
-  const user: CreateUserForm = {
-    name: formData.get('name') as string,
-    email: formData.get('email') as string,
-    password: formData.get('password') as string,
-    confirmPassword: formData.get('confirmPassword') as string
-  }
+  const user = Object.fromEntries(formData) as CreateUserForm;
   try {
     const response = await fetch(`${BASE_URL}/user/register`, {
       method: 'POST',
