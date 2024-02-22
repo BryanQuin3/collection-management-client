@@ -350,7 +350,7 @@ export async function register(prevState: UserState, formData: FormData) {
         email: ['Invalid email.'],
         password: ['Invalid password.']
       },
-      message: error
+      message: `Failed to create account. ${error}`
     }
   }
   redirect('/login')
