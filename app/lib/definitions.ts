@@ -117,6 +117,7 @@ export type UserState = {
     password?: string[];
   };
   message?: string | null;
+  status?: string;
 };
 
 export type UserForm = {

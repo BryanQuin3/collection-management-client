@@ -2,7 +2,6 @@
 import { lusitana } from '@/app/ui/fonts'
 import {
     AtSymbolIcon,
-    KeyIcon,
     ExclamationCircleIcon,
     UserCircleIcon
 } from '@heroicons/react/24/outline'
@@ -11,11 +10,12 @@ import { Button } from './button'
 import { useFormState } from 'react-dom'
 import { register } from '@/app/lib/actions'
 import Link from 'next/link'
+import PasswordField from './password'
 
 export default function RegisterForm() {
-
     const initialState = { message: null, errors: {} }
     const [state, dispatch] = useFormState(register, initialState)
+
     return (
         <form className='space-y-3' action={dispatch}>
             <div className='flex-1 rounded-lg bg-gray-50 px-6 pb-4 pt-8'>
@@ -62,47 +62,20 @@ export default function RegisterForm() {
                             <AtSymbolIcon className='pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900' />
                         </div>
                     </div>
-                    <div>
-                        <label
-                            className='mb-3 mt-5 block text-sm font-medium text-gray-900'
-                            htmlFor='password'
-                        >
-                            Password
-                        </label>
-                        <div className='relative'>
-                            <input
-                                className='peer block w-full rounded-md border border-gray-200 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500'
-                                id='password'
-                                type='password'
-                                name='password'
-                                placeholder='Enter password'
-                                required
-                                minLength={8}
-                            />
-                            <KeyIcon className='pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900' />
-                        </div>
-                    </div>
+                    {/* password */}
+                    <PasswordField
+                        label='Password'
+                        id='password'
+                        name='password'
+                        placeholder='Enter password'
+                    />
                     {/* confirm password */}
-                    <div>
-                        <label
-                            className='mb-3 mt-5 block text-sm font-medium text-gray-900'
-                            htmlFor='password'
-                        >
-                            Confirm Password
-                        </label>
-                        <div className='relative'>
-                            <input
-                                className='peer block w-full rounded-md border border-gray-200 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500'
-                                id='confirmPassword'
-                                type='password'
-                                name='confirmPassword'
-                                placeholder='Confirm password'
-                                required
-                                minLength={8}
-                            />
-                            <KeyIcon className='pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900' />
-                        </div>
-                    </div>
+                    <PasswordField
+                        label='Confirm Password'
+                        id='confirmPassword'
+                        name='confirmPassword'
+                        placeholder='Confirm password'
+                    />
                 </div>
                 <RegisterButton />
                 <div className='flex items-center gap-2 mt-3 justify-between'>
