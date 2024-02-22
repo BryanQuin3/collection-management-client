@@ -12,8 +12,6 @@ import { createInvoice } from '@/app/lib/actions'
 import { useFormState } from 'react-dom'
 
 export default function Form({ customers }: { customers: CustomerField[] }) {
-  console.log(customers)
-
   const initialState = { message: null, errors: {} }
   const [state, dispatch] = useFormState(createInvoice, initialState)
   return (
@@ -35,7 +33,7 @@ export default function Form({ customers }: { customers: CustomerField[] }) {
               <option value='' disabled>
                 Select a customer
               </option>
-              {customers.map((customer) => (
+              {customers?.map((customer) => (
                 <option key={customer._id} value={customer._id}>
                   {customer.name}
                 </option>
