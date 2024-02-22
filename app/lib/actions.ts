@@ -344,13 +344,11 @@ export async function register(prevState: UserState, formData: FormData) {
     }
     
   } catch (error) {
-    return {
-      ...prevState,
-      errors: {
-        email: ['Invalid email.'],
-        password: ['Invalid password.']
-      },
-      message: `Failed to create account. ${error}`
+    if(error instanceof Error){
+      return {
+        ...prevState,
+        message: error.message
+      }
     }
   }
   redirect('/login')
