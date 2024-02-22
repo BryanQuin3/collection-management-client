@@ -22,7 +22,7 @@ export default function RegisterForm() {
                 <h1 className={`${lusitana.className} mb-3 text-2xl`}>
                     Create an account to continue.
                 </h1>
-                <div className='w-full grid grid-cols-1 place-items-center gap-3 md:grid-cols-2'>
+                <div className='w-full grid grid-cols-1 gap-x-3 md:grid-cols-2'>
                     {/* name */}
                     <div>
                         <label
@@ -78,10 +78,10 @@ export default function RegisterForm() {
                     />
                 </div>
                 <RegisterButton />
-                <div className='flex items-center gap-2 mt-3 justify-between'>
+                <div className='flex items-center gap-2 justify-between'>
                     <span className='text-sm text-gray-700'>Already have an account?</span>
                     <Link href='/login'>
-                        <span className='text-blue-500 text-sm uppercase font-semibold'>Sign in</span>
+                        <span className='text-blue-500 text-xs uppercase font-semibold md:text-sm'>Sign in</span>
                     </Link>
                 </div>
                 <div className='flex h-8 items-end space-x-1 mt-4'>
@@ -105,7 +105,7 @@ export default function RegisterForm() {
 
 function RegisterButton() {
     return (
-        <Button className='mt-4 w-full flex justify-between'>
+        <Button className='my-5 w-full flex justify-between'>
             Sign Up <ArrowRightIcon className='ml-3 h-5 w-5 text-gray-50' />
         </Button>
     )

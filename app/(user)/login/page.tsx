@@ -15,7 +15,7 @@ export default function LoginPage() {
                 <div className='flex items-center gap-2'>
                     <span className='text-sm text-gray-700'>You don&apos;t have an account?</span>
                     <Link href='/register'>
-                        <span className='text-blue-500 text-sm uppercase font-semibold'>Create an account</span>
+                        <span className='text-blue-500 text-xs uppercase font-semibold md:text-sm'>Create an account</span>
                     </Link>
                 </div>
             </div>
