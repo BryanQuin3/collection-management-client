@@ -1,5 +1,7 @@
 import type { NextAuthConfig } from 'next-auth';
 
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
+
 export const authConfig: NextAuthConfig = {
   pages: {
     signIn: '/login',
@@ -11,18 +13,14 @@ export const authConfig: NextAuthConfig = {
         // No hay token, redirige a la página de inicio de sesión
         return false; 
       }
-
       try {
-        const response = await fetch('BASE_URL/user/check-auth', {
+        const response = await fetch(`${BASE_URL}/user/check-auth`,{
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
+            'Cookie': `usertoken=${userToken.value}`,
           },
-          body: JSON.stringify({
-            token: userToken,
-          }),
         });
-        
         if (response.ok) {
           const responseData = await response.json();
           if (responseData.valid) {
