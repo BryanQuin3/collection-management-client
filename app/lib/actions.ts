@@ -283,8 +283,12 @@ export async function login(prevState: UserState, formData: FormData){
           throw new Error('Failed to login.');
       }
       // obtener el token del usuario desde el response
-      const {usertoken} = await response.json();
-      cookies().set('usertoken', usertoken);
+      const {usertoken,expirationTime} = await response.json();
+      cookies().set('usertoken', usertoken,{
+        expires: new Date(expirationTime),
+        path: '/',
+        httpOnly: true,
+      });
       revalidatePath('/dashboard')
   } catch (error) {
       return {
