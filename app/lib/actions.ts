@@ -338,7 +338,10 @@ export async function register(prevState: UserState, formData: FormData) {
       },
       body: JSON.stringify(user)
     })
-    if (!response.ok) throw new Error('Failed to register user.')
+    if (!response.ok){
+      const data = await response.json()
+      throw new Error(data.message)
+    }
     
   } catch (error) {
     return {
@@ -347,7 +350,7 @@ export async function register(prevState: UserState, formData: FormData) {
         email: ['Invalid email.'],
         password: ['Invalid password.']
       },
-      message: 'Password and confirm password must match.'
+      message: error
     }
   }
   redirect('/login')
