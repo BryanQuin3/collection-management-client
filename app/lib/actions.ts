@@ -331,7 +331,6 @@ export async function register(prevState: UserState, formData: FormData) {
     confirmPassword: formData.get('confirmPassword') as string
   }
   try {
-    prevState.status = 'loading'
     const response = await fetch(`${BASE_URL}/user/register`, {
       method: 'POST',
       headers: {
@@ -343,13 +342,11 @@ export async function register(prevState: UserState, formData: FormData) {
       const data = await response.json()
       throw new Error(data.message)
     }
-    prevState.status = 'success'
   } catch (error) {
     if(error instanceof Error){
       return {
         ...prevState,
         message: error.message,
-        status: 'error'
       }
     }
   }
