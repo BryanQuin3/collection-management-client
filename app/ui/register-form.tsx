@@ -79,6 +79,13 @@ export default function RegisterForm() {
                         validate={true}
                     />
                 </div>
+                {
+                    state.status === 'loading' && (
+                        <div className='flex items-center justify-center'>
+                            <div className='w-5 h-5 border-t-2 border-b-2 border-gray-900 rounded-full animate-spin' />
+                        </div>
+                    )
+                }
                 <RegisterButton />
                 <div className='flex items-center gap-2 justify-between'>
                     <span className='text-sm text-gray-700'>Already have an account?</span>
