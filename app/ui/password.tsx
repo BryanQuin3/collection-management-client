@@ -7,9 +7,10 @@ type PasswordFieldProps = {
     id: 'password' | 'confirmPassword'
     name: 'password' | 'confirmPassword'
     placeholder: string
+    validate?: boolean
 }
 
-export default function PasswordField({ label, id, name, placeholder }: PasswordFieldProps) {
+export default function PasswordField({ label, id, name, placeholder, validate }: PasswordFieldProps) {
     const [showPassword, setShowPassword] = useState(false)
 
     return (
@@ -29,8 +30,8 @@ export default function PasswordField({ label, id, name, placeholder }: Password
                     placeholder={placeholder}
                     required
                     minLength={8}
-                    pattern='(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}'
-                    title='Password must contain at least one number, one uppercase letter, one lowercase letter, and be at least 8 characters long'
+                    pattern={validate ? '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,}$' : undefined}
+                    title={validate ? 'Password must contain at least 8 characters, including uppercase, lowercase, and numbers' : undefined}
                 />
                 <KeyIcon className='pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900' />
                 {

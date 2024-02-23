@@ -68,6 +68,7 @@ export default function RegisterForm() {
                         id='password'
                         name='password'
                         placeholder='Enter password'
+                        validate={true}
                     />
                     {/* confirm password */}
                     <PasswordField
@@ -75,6 +76,7 @@ export default function RegisterForm() {
                         id='confirmPassword'
                         name='confirmPassword'
                         placeholder='Confirm password'
+                        validate={true}
                     />
                 </div>
                 <RegisterButton />
