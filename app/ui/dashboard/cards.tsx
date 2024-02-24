@@ -22,7 +22,6 @@ export default async function CardWrapper() {
     totalPendingInvoices,
     numberOfCustomers
   } = await fetchCardData()
-  console.log(totalPaidInvoices)
   return (
     <>
       <Card title='Collected' value={totalPaidInvoices} type='collected' />

@@ -23,7 +23,8 @@ export async function fetchRevenue(){
 export async function fetchLatestInvoices() {
   try {
     const latestInvoices = await fetch(`${BASE_URL}/invoices/latest`)
-    return latestInvoices.json()
+    const data = await latestInvoices.json()
+    return data
   }
   catch (error) {
     return {
