@@ -11,7 +11,8 @@ const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
 export async function fetchRevenue(){
   try{
     const revenues = await fetch(`${BASE_URL}/revenue`)
-    return revenues.json()
+    const revenuesData = await revenues.json()
+    return revenuesData
   } catch (error) {
     return {
       message: 'Failed to get Revenue.'
