@@ -13,7 +13,9 @@ export async function fetchRevenue(){
     const revenues = await fetch(`${BASE_URL}/revenue`)
     return revenues.json()
   } catch (error) {
-    return []
+    return {
+      message: 'Failed to get Revenue.'
+    }
   }
 }
 

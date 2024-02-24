@@ -15,7 +15,7 @@ export default async function LatestInvoices() {
       </h2>
       <div className='flex grow flex-col justify-between rounded-xl bg-gray-50 p-4'>
         <div className='bg-white px-6'>
-          {latestInvoices.map((invoice: LatestInvoice, i: Number) => {
+          {latestInvoices?.map((invoice: LatestInvoice, i: Number) => {
             return (
               <div
                 key={invoice.id}
