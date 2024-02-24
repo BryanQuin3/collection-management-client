@@ -10,8 +10,9 @@ export default async function RevenueChart() {
   const chartHeight = 350
   const { yAxisLabels, topLabel } = generateYAxis(revenue)
 
-  if (!revenue || revenue.length === 0) {
-    return <p className='mt-4 text-gray-400'>No data available.</p>
+  if (!Array.isArray(revenue)) {
+    // Manejar el caso en el que revenue no es un array
+    return <p className='mt-4 text-gray-400'>No revenue data available.</p>
   }
 
   return (

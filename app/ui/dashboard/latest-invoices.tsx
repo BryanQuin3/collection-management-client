@@ -7,6 +7,10 @@ import { fetchLatestInvoices } from '@/app/lib/actions'
 
 export default async function LatestInvoices() {
   const latestInvoices = await fetchLatestInvoices()
+  if (!Array.isArray(latestInvoices)) {
+    // Manejar el caso en el que latestInvoices no es un array
+    return <p className='mt-4 text-gray-400'>No invoices available.</p>
+  }
 
   return (
     <div className='flex w-full flex-col md:col-span-4'>
