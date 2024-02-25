@@ -8,6 +8,7 @@ import {
 import { ArrowRightIcon } from '@heroicons/react/20/solid'
 import { Button } from './button'
 import { useFormState } from 'react-dom'
+import { useState } from 'react'
 import { login } from '@/app/lib/actions'
 import PasswordField from './password'
 
@@ -15,8 +16,10 @@ export default function LoginForm() {
 
   const initialState = { message: null, errors: {} }
   const [state, dispatch] = useFormState(login, initialState)
+  const [loading, setLoading] = useState(false)
+
   return (
-    <form className='space-y-3' action={dispatch}>
+    <form className='space-y-3' action={dispatch} onSubmit={() => setLoading(!loading)}>
       <div className='flex-1 rounded-lg bg-gray-50 px-6 pb-4 pt-8'>
         <h1 className={`${lusitana.className} mb-3 text-2xl`}>
           Please log in to continue.
@@ -48,7 +51,7 @@ export default function LoginForm() {
             placeholder='Enter your password'
           />
         </div>
-        <LoginButton />
+        <LoginButton loading={loading} message={state?.message} />
         <div className='flex h-8 items-end space-x-1'>
           {state?.message && (
             <p
@@ -68,10 +71,25 @@ export default function LoginForm() {
   )
 }
 
-function LoginButton() {
+type LoginButtonProps = {
+  loading: boolean
+  message: string | null | undefined
+}
+
+function LoginButton({ loading, message }: LoginButtonProps) {
   return (
     <Button className='mt-4 w-full'>
-      Log in <ArrowRightIcon className='ml-auto h-5 w-5 text-gray-50' />
+      {
+        loading && !message ?
+          <div className='flex items-center justify-between w-full'>
+            <span className='animate-pulse'>Loading...</span>
+            <div className='w-5 h-5 rounded-full border-2 border-white animate-spin' />
+          </div>
+          :
+          <div className='flex items-center justify-between w-full'>
+            Log in <ArrowRightIcon className='ml-auto h-5 w-5 text-gray-50' />
+          </div>
+      }
     </Button>
   )
 }
