@@ -295,7 +295,8 @@ export async function login(prevState: UserState, formData: FormData){
   } catch (error) {
       return {
           ...prevState,
-          message: 'Invalid email or password.'
+          message: 'Invalid email or password.',
+          status: 'error'
       };
   }
   redirect('/dashboard')

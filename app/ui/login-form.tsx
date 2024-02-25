@@ -2,7 +2,6 @@
 import { lusitana } from '@/app/ui/fonts'
 import {
   AtSymbolIcon,
-  KeyIcon,
   ExclamationCircleIcon
 } from '@heroicons/react/24/outline'
 import { ArrowRightIcon } from '@heroicons/react/20/solid'
@@ -13,21 +12,18 @@ import { login } from '@/app/lib/actions'
 import PasswordField from './password'
 
 export default function LoginForm() {
-
-  const initialState = { message: null, errors: {} }
+  const initialState = { message: null, errors: {}, status: '' }
   const [state, dispatch] = useFormState(login, initialState)
   const [loading, setLoading] = useState(false)
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    setLoading(!loading);
-    const formData = new FormData(event.target as HTMLFormElement);
-    dispatch(formData);
-    setLoading(!loading);
-  };
+  useEffect(() => {
+    if (state.status) {
+      setLoading(false);
+    }
+  }, [state.status]);
 
   return (
-    <form className='space-y-3' onSubmit={handleSubmit}>
+    <form className='space-y-3' action={dispatch} onSubmit={() => setLoading(true)}>
       <div className='flex-1 rounded-lg bg-gray-50 px-6 pb-4 pt-8'>
         <h1 className={`${lusitana.className} mb-3 text-2xl`}>
           Please log in to continue.
@@ -59,7 +55,7 @@ export default function LoginForm() {
             placeholder='Enter your password'
           />
         </div>
-        <LoginButton loading={loading} message={state?.message} />
+        <LoginButton loading={loading} />
         <div className='flex h-8 items-end space-x-1'>
           {state?.message && (
             <p
@@ -82,14 +78,13 @@ export default function LoginForm() {
 
 type LoginButtonProps = {
   loading: boolean
-  message: string | null | undefined
 }
 
-function LoginButton({ loading, message }: LoginButtonProps) {
+function LoginButton({ loading }: LoginButtonProps) {
   return (
     <Button className='mt-4 w-full'>
       {
-        loading && !message ?
+        loading ?
           <div className='flex items-center justify-between w-full'>
             <span className='animate-pulse'>Loading...</span>
             <svg aria-hidden="true" role="status" className="inline w-4 h-4 me-3 text-white animate-spin" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
