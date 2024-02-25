@@ -295,10 +295,6 @@ export async function login(prevState: UserState, formData: FormData){
   } catch (error) {
       return {
           ...prevState,
-          errors: {
-              email: ['Invalid email.'],
-              password: ['Invalid password.']
-          },
           message: 'Invalid email or password.'
       };
   }
