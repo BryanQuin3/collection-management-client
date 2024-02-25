@@ -1,6 +1,6 @@
 'use server'
 
-import { revalidatePath } from 'next/cache'
+import { revalidatePath, revalidateTag } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { CreateUserForm,CustomerState,FormattedCustomersTable, Invoice, InvoiceForm, InvoicesTable, State, UserForm, UserState } from './definitions'
 import { cookies } from 'next/headers'
@@ -190,11 +190,11 @@ export async function createInvoice (prevState:State, formData : FormData) {
     if (response.status !== 201) throw new Error()
   } catch (error) {
     return {
-      ...prevState
+      ...prevState,
+      status: 'error'
     }
   }
-  revalidatePath('/dashboard/invoices/create')
-  revalidatePath('/dashboard/invoices')
+  revalidateTag('/dashboard/invoices')
   revalidatePath('/dashboard/customers')
   redirect('/dashboard/invoices')
   
@@ -243,7 +243,7 @@ export async function updateInvoice(id:string, prevState:State, formData : FormD
       ...prevState
     }
   }
-  revalidatePath('/dashboard/invoices')
+  revalidateTag('/dashboard/invoices')
   revalidatePath('/dashboard/customers')
   redirect('/dashboard/invoices')
   

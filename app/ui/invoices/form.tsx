@@ -9,22 +9,35 @@ import {
 } from '@heroicons/react/24/outline'
 import Link from 'next/link'
 import { Button } from '@/app/ui/button'
-import { updateInvoice } from '@/app/lib/actions'
+import { updateInvoice, createInvoice } from '@/app/lib/actions'
 import { useFormState } from 'react-dom'
+import { useState, useEffect } from 'react'
 
-export default function EditInvoiceForm({
+export default function InvoiceForm({
   invoice,
-  customers
+  customers,
+  type
 }: {
-  invoice: Invoice;
+  invoice?: Invoice;
   customers: CustomerField[];
+  type: 'edit' | 'create';
 }) {
-  const initialState = { message: null, errors: {} }
-  const updateInvoiceWithId = updateInvoice.bind(null, invoice._id)
-  const [state, dispatch] = useFormState(updateInvoiceWithId, initialState)
+  const initialState = { message: null, errors: {}, status: '' }
+  const action = type === 'edit' ? updateInvoice.bind(null, invoice?._id || '') : createInvoice
+  const buttonTitle = type === 'edit' ? 'Edit Invoice' : 'Create Invoice'
+  const loadingTitle = type === 'edit' ? 'Editing...' : 'Creating...'
+  const [state, dispatch] = useFormState(action, initialState)
+  const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    if (state?.status) {
+      setLoading(false);
+      state.status = ''
+    }
+  }, [state?.status]);
 
   return (
-    <form action={dispatch} aria-describedby='form-error'>
+    <form action={dispatch} aria-describedby='form-error' onSubmit={() => setLoading(true)}>
       <div className='rounded-md bg-gray-50 p-4 md:p-6'>
         {/* Customer Name */}
         <div className='mb-4'>
@@ -36,7 +49,7 @@ export default function EditInvoiceForm({
               id='customer'
               name='customerId'
               className='peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500'
-              defaultValue={invoice.customer_id}
+              defaultValue={invoice?.customer_id || ''}
               aria-describedby='customer-error'
             >
               <option value='' disabled>
@@ -72,7 +85,7 @@ export default function EditInvoiceForm({
                 name='amount'
                 type='number'
                 step='0.01'
-                defaultValue={invoice.amount}
+                defaultValue={invoice?.amount}
                 placeholder='Enter USD amount'
                 className='peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500'
                 aria-describedby='amount-error'
@@ -105,7 +118,7 @@ export default function EditInvoiceForm({
                   name='status'
                   type='radio'
                   value='pending'
-                  defaultChecked={invoice.status === 'pending'}
+                  defaultChecked={invoice?.status === 'pending'}
                   className='h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-gray-600 focus:ring-2'
                   aria-describedby='status-error'
                 />
@@ -122,7 +135,7 @@ export default function EditInvoiceForm({
                   name='status'
                   type='radio'
                   value='paid'
-                  defaultChecked={invoice.status === 'paid'}
+                  defaultChecked={invoice?.status === 'paid'}
                   className='h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-gray-600 focus:ring-2'
                 />
                 <label
@@ -156,7 +169,11 @@ export default function EditInvoiceForm({
         >
           Cancel
         </Link>
-        <Button type='submit'>Edit Invoice</Button>
+        <Button className={loading ? `cursor-not-allowed` : `cursor-pointer`}>
+          {
+            loading ? loadingTitle : buttonTitle
+          }
+        </Button>
       </div>
     </form>
   )

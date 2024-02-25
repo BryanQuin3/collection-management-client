@@ -1,8 +1,8 @@
 /* eslint-disable react/jsx-indent-props */
-import Form from '@/app/ui/invoices/edit-form'
 import Breadcrumbs from '@/app/ui/invoices/breadcrumbs'
 import { fetchCustomers, fetchInvoiceById } from '@/app/lib/actions'
 import { notFound } from 'next/navigation'
+import InvoiceForm from '@/app/ui/invoices/form'
 
 export default async function Page({ params }: { params: { id: string } }) {
     const { id } = params
@@ -25,7 +25,7 @@ export default async function Page({ params }: { params: { id: string } }) {
                     }
                 ]}
             />
-            <Form invoice={invoice} customers={customers} />
+            <InvoiceForm invoice={invoice} customers={customers} type='edit' />
         </main>
     )
 }
