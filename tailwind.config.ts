@@ -19,11 +19,17 @@ const config: Config = {
         },
       },
     },
+    animation: {
+      spinner: 'spin 2s linear infinite',
+    },
     keyframes: {
       shimmer: {
         '100%': {
           transform: 'translateX(100%)',
         },
+      },
+      spin: {
+        to: { transform: 'rotate(360deg)' },
       },
     },
   },
