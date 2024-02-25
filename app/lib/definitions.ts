@@ -131,3 +131,7 @@ export type CreateUserForm = {
   password: string;
   confirmPassword: string;
 };
+
+export type LoadingProps = {
+  loading: boolean
+}

@@ -11,13 +11,24 @@ import { useFormState } from 'react-dom'
 import { register } from '@/app/lib/actions'
 import Link from 'next/link'
 import PasswordField from './password'
+import { useState, useEffect } from 'react'
+import { LoadingProps } from '../lib/definitions'
+import { Loading } from './loading'
 
 export default function RegisterForm() {
-    const initialState = { message: null, errors: {} }
+    const initialState = { message: null, errors: {}, status: '' }
     const [state, dispatch] = useFormState(register, initialState)
+    const [loading, setLoading] = useState(false)
+
+    useEffect(() => {
+        if (state?.status) {
+            setLoading(false);
+            state.status = ''
+        }
+    }, [state?.status]);
 
     return (
-        <form className='space-y-3' action={dispatch}>
+        <form className='space-y-3' action={dispatch} onSubmit={() => setLoading(true)}>
             <div className='flex-1 rounded-lg bg-gray-50 px-6 pb-4 pt-8'>
                 <h1 className={`${lusitana.className} mb-3 text-2xl`}>
                     Create an account to continue.
@@ -79,7 +90,7 @@ export default function RegisterForm() {
                         validate={true}
                     />
                 </div>
-                <RegisterButton />
+                <RegisterButton loading={loading} />
                 <div className='flex items-center gap-2 justify-between'>
                     <span className='text-sm text-gray-700'>Already have an account?</span>
                     <Link href='/login'>
@@ -105,10 +116,17 @@ export default function RegisterForm() {
     )
 }
 
-function RegisterButton() {
+function RegisterButton({ loading }: LoadingProps) {
     return (
-        <Button className='my-5 w-full flex justify-between'>
-            Sign Up <ArrowRightIcon className='ml-3 h-5 w-5 text-gray-50' />
+        <Button className='mt-4 w-full'>
+            {
+                loading ?
+                    <Loading />
+                    :
+                    <div className='flex items-center justify-between w-full'>
+                        Register <ArrowRightIcon className='ml-auto h-5 w-5 text-gray-50' />
+                    </div>
+            }
         </Button>
     )
 }

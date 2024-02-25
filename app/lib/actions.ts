@@ -349,6 +349,7 @@ export async function register(prevState: UserState, formData: FormData) {
       return {
         ...prevState,
         message: error.message,
+        status: 'error'
       }
     }
   }
