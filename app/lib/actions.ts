@@ -326,12 +326,7 @@ export async function logout() {
 }
 
 export async function register(prevState: UserState, formData: FormData) {
-  const user: CreateUserForm = {
-    name: formData.get('name') as string,
-    email: formData.get('email') as string,
-    password: formData.get('password') as string,
-    confirmPassword: formData.get('confirmPassword') as string
-  }
+  const user = Object.fromEntries(formData.entries()) as CreateUserForm
   try {
     const response = await fetch(`${BASE_URL}/user/register`, {
       method: 'POST',
@@ -344,6 +339,14 @@ export async function register(prevState: UserState, formData: FormData) {
       const data = await response.json()
       throw new Error(data.message)
     }
+    // obtener el token del usuario desde el response
+    const {usertoken,expirationTime} = await response.json();
+    cookies().set('usertoken', usertoken,{
+      expires: new Date(expirationTime),
+      path: '/',
+      httpOnly: true,
+    });
+    revalidatePath('/dashboard')
   } catch (error) {
     if(error instanceof Error){
       return {
@@ -352,5 +355,5 @@ export async function register(prevState: UserState, formData: FormData) {
       }
     }
   }
-  redirect('/login')
+  redirect('/dashboard')
 }
