@@ -111,7 +111,8 @@ export async function createCustomer (prevState:CustomerState,formData: FormData
     if (result?.message) {
       return {
         ...prevState,
-        message: result.message
+        message: result.message,
+        status: 'error'
       }
     }
     const response = await fetch(`${BASE_URL}/customers`, {
@@ -126,7 +127,8 @@ export async function createCustomer (prevState:CustomerState,formData: FormData
   } catch (error) {
     return {
       ...prevState,
-      message: 'Failed to create customer.'
+      message: 'Failed to create customer.',
+      status: 'error'
     }
   }
   revalidatePath('/dashboard')

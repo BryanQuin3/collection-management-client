@@ -110,6 +110,7 @@ export type CustomerState = {
     image_url?: string[];
   };
   message?: string | null;
+  status?: string;
 };
 
 export type UserState = {

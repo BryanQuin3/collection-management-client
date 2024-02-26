@@ -11,21 +11,14 @@ import { useFormState } from 'react-dom'
 import { register } from '@/app/lib/actions'
 import Link from 'next/link'
 import PasswordField from './password'
-import { useState, useEffect } from 'react'
 import { LoadingProps } from '../lib/definitions'
 import { Loading } from './loading'
+import { useLoading } from '../hooks/useLoading'
 
 export default function RegisterForm() {
     const initialState = { message: null, errors: {}, status: '' }
     const [state, dispatch] = useFormState(register, initialState)
-    const [loading, setLoading] = useState(false)
-
-    useEffect(() => {
-        if (state?.status) {
-            setLoading(false);
-            state.status = ''
-        }
-    }, [state?.status]);
+    const { loading, setLoading } = useLoading(state.status)
 
     return (
         <form className='space-y-3' action={dispatch} onSubmit={() => setLoading(true)}>

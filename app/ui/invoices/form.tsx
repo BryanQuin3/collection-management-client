@@ -11,7 +11,7 @@ import Link from 'next/link'
 import { Button } from '@/app/ui/button'
 import { updateInvoice, createInvoice } from '@/app/lib/actions'
 import { useFormState } from 'react-dom'
-import { useState, useEffect } from 'react'
+import { useLoading } from '@/app/hooks/useLoading'
 
 export default function InvoiceForm({
   invoice,
@@ -27,14 +27,7 @@ export default function InvoiceForm({
   const buttonTitle = type === 'edit' ? 'Edit Invoice' : 'Create Invoice'
   const loadingTitle = type === 'edit' ? 'Editing...' : 'Creating...'
   const [state, dispatch] = useFormState(action, initialState)
-  const [loading, setLoading] = useState(false)
-
-  useEffect(() => {
-    if (state?.status) {
-      setLoading(false);
-      state.status = ''
-    }
-  }, [state?.status]);
+  const { loading, setLoading } = useLoading(state.status)
 
   return (
     <form action={dispatch} aria-describedby='form-error' onSubmit={() => setLoading(true)}>

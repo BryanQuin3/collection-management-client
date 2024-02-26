@@ -3,12 +3,16 @@ import { useFormState } from 'react-dom'
 import { createCustomer } from '@/app/lib/actions'
 import { Button } from '../button'
 import Link from 'next/link'
+import { useLoading } from '@/app/hooks/useLoading'
 
 export default function Form() {
-    const initialState = { message: null, errors: {} }
+    const initialState = { message: null, errors: {}, status: '' }
     const [state, dispatch] = useFormState(createCustomer, initialState)
+    const { loading, setLoading } = useLoading(state.status)
+
+
     return (
-        <form action={dispatch} aria-describedby='form-error'>
+        <form action={dispatch} aria-describedby='form-error' onSubmit={() => setLoading(true)}>
             <div className='rounded-md bg-gray-50 p-4 md:p-6'>
                 {/* Name */}
                 <div className='mb-4'>
@@ -73,7 +77,11 @@ export default function Form() {
                 >
                     Cancel
                 </Link>
-                <Button type='submit'>Create Customer</Button>
+                <Button className={loading ? `cursor-not-allowed` : `cursor-pointer`}>
+                    {
+                        loading ? 'Creating...' : 'Create Customer'
+                    }
+                </Button>
             </div>
         </form>
     )

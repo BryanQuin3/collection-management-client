@@ -7,23 +7,16 @@ import {
 import { ArrowRightIcon } from '@heroicons/react/20/solid'
 import { Button } from './button'
 import { useFormState } from 'react-dom'
-import { useState, useEffect } from 'react'
 import { login } from '@/app/lib/actions'
 import PasswordField from './password'
 import { Loading } from './loading'
 import { LoadingProps } from '../lib/definitions'
+import { useLoading } from '../hooks/useLoading'
 
 export default function LoginForm() {
   const initialState = { message: null, errors: {}, status: '' }
   const [state, dispatch] = useFormState(login, initialState)
-  const [loading, setLoading] = useState(false)
-
-  useEffect(() => {
-    if (state?.status) {
-      setLoading(false);
-      state.status = ''
-    }
-  }, [state?.status]);
+  const { loading, setLoading } = useLoading(state.status)
 
   return (
     <form className='space-y-3' action={dispatch} onSubmit={() => setLoading(true)}>
