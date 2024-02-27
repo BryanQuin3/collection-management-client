@@ -119,7 +119,7 @@ export type UserState = {
     password?: string[];
   };
   message?: string | null;
-  status?: string;
+  status: string;
 };
 
 export type UserForm = {

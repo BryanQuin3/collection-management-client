@@ -270,10 +270,7 @@ export async function fetchInvoicesPages (query: string){
 }
 
 export async function login(prevState: UserState, formData: FormData){
-  const user: UserForm = {
-      email: formData.get('email') as string,
-      password: formData.get('password') as string
-  }
+  const user = Object.fromEntries(formData.entries()) as UserForm
   try {
       const response = await fetch(`${BASE_URL}/user/login`, {
           method: 'POST',
@@ -284,7 +281,8 @@ export async function login(prevState: UserState, formData: FormData){
       });
 
       if (response.status !== 200) {
-          throw new Error('Failed to login.');
+          const {message} = await response.json();
+          throw new Error(message);
       }
       // obtener el token del usuario desde el response
       const {usertoken,expirationTime} = await response.json();
@@ -295,11 +293,13 @@ export async function login(prevState: UserState, formData: FormData){
       });
       revalidatePath('/dashboard')
   } catch (error) {
-      return {
+      if(error instanceof Error){
+        return {
           ...prevState,
-          message: 'Invalid email or password.',
-          status: 'error'
-      };
+          message: error.message,
+          status: `error at ${new Date().toLocaleTimeString()}`
+        }
+      }
   }
   redirect('/dashboard')
 }
@@ -351,7 +351,7 @@ export async function register(prevState: UserState, formData: FormData) {
       return {
         ...prevState,
         message: error.message,
-        status: 'error'
+        status: `error at ${new Date().toLocaleTimeString()}`
       }
     }
   }

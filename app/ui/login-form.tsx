@@ -15,8 +15,9 @@ import { useLoading } from '../hooks/useLoading'
 
 export default function LoginForm() {
   const initialState = { message: null, errors: {}, status: '' }
-  const [state, dispatch] = useFormState(login, initialState)
-  const { loading, setLoading } = useLoading(state.status)
+  const [state = initialState, dispatch] = useFormState(login, initialState)
+  const { status = 'success' } = state
+  const { loading, setLoading } = useLoading(status)
 
   return (
     <form className='space-y-3' action={dispatch} onSubmit={() => setLoading(true)}>

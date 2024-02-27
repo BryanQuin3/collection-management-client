@@ -6,7 +6,6 @@ export function useLoading(status:string | undefined) {
     useEffect(() => {
         if (status) {
             setLoading(false);
-            status = ''
         }
     }, [status]);
 
