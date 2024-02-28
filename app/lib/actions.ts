@@ -2,7 +2,7 @@
 
 import { revalidatePath, revalidateTag } from 'next/cache'
 import { redirect } from 'next/navigation'
-import { CreateUserForm,CustomerState,FormattedCustomersTable, Invoice, InvoiceForm, InvoicesTable, State, UserForm, UserState } from './definitions'
+import { CreateUserForm,CustomerState,FormattedCustomersTable, Invoice, InvoiceForm, InvoicesTable, InvoicesTableFormatted, State, UserForm, UserState } from './definitions'
 import { cookies } from 'next/headers'
 import { z } from 'zod'
 
@@ -152,7 +152,7 @@ export async function fetchCustomers() {
   }
 }
 
-export async function fetchFilteredInvoices(query: string, currentPage: number): Promise<InvoicesTable[]> {
+export async function fetchFilteredInvoices(query: string, currentPage: number): Promise<InvoicesTableFormatted[]> {
   try {
       const url = `${BASE_URL}/invoices/details?query=${query}&page=${currentPage}`;
       const invoicesData = await fetch(url);
@@ -174,12 +174,10 @@ export async function fetchFilteredInvoices(query: string, currentPage: number):
   } catch (error) {
       return [{
           _id: '',
-          customer_id: {
-              _id: '',
-              name: '',
-              email: '',
-              image_url: ''
-          },
+          customer_id: '',
+          name: '',
+          email: '',
+          image_url: '',
           date: '',
           amount: 0,
           status: 'pending'
