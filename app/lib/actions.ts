@@ -156,17 +156,33 @@ export async function fetchFilteredInvoices(query: string, currentPage: number):
   try {
       const url = `${BASE_URL}/invoices/details?query=${query}&page=${currentPage}`;
       const invoicesData = await fetch(url);
-      return invoicesData.json();
+      const invoices = await invoicesData.json();
+      const formattedInvoices = invoices.map((invoice: InvoicesTable) => {
+          return {
+              _id: invoice._id,
+              customer_id: invoice.customer_id,
+              name: invoice.customer_id.name,
+              email: invoice.customer_id.email,
+              image_url: invoice.customer_id.image_url,
+              amount: invoice.amount,
+              status: invoice.status,
+              date: invoice.date
+          }
+      });
+      return formattedInvoices;
+
   } catch (error) {
       return [{
           _id: '',
-          customer_id: '',
-          name: '',
-          email: '',
-          image_url: '',
+          customer_id: {
+              _id: '',
+              name: '',
+              email: '',
+              image_url: ''
+          },
+          date: '',
           amount: 0,
-          status: 'pending',
-          date: ''
+          status: 'pending'
       }];
   }
 }
