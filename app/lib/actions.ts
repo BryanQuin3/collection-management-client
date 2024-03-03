@@ -2,9 +2,8 @@
 
 import { revalidatePath, revalidateTag } from 'next/cache'
 import { redirect } from 'next/navigation'
-import { CreateUserForm,CustomerState,FormattedCustomersTable, Invoice, InvoiceForm, InvoicesTable, InvoicesTableFormatted, State, UserForm, UserState } from './definitions'
+import { CreateUserForm,CustomerForm,CustomerState,FormattedCustomersTable, Invoice, InvoiceForm, InvoicesTable, InvoicesTableFormatted, State, UserForm, UserState } from './definitions'
 import { cookies } from 'next/headers'
-import { z } from 'zod'
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
 
@@ -87,32 +86,26 @@ export async function verifyImageURL(image_url: string) {
       throw new Error('The URL does not point to an image.');
     }
   } catch (error) {
-    return {
-      message: 'Invalid image URL.'
+    if(error instanceof Error){
+      const message = error.message.toLowerCase()
+      if(message.includes('failed')) error.message = 'Invalid image URL.'
+      return {
+        message: error.message
+      }
     }
   }
 }
 
-const CustomerSchema = z.object({
-  name: z.string(),
-  email: z.string(),
-  image_url: z.string().url({message: 'Invalid image URL.'})
-})
-
 export async function createCustomer (prevState:CustomerState,formData: FormData) {
   try {
-    const customer = CustomerSchema.parse({
-      name: formData.get('name') as string,
-      email: formData.get('email') as string,
-      image_url: formData.get('image_url') as string
-    })
+    const customer = Object.fromEntries(formData.entries()) as CustomerForm
     //verify image url
     const result = await verifyImageURL(customer.image_url)
     if (result?.message) {
       return {
         ...prevState,
         message: result.message,
-        status: 'error'
+        status: `error at ${new Date().toLocaleTimeString()}`
       }
     }
     const response = await fetch(`${BASE_URL}/customers`, {
@@ -130,7 +123,7 @@ export async function createCustomer (prevState:CustomerState,formData: FormData
       return {
         ...prevState,
         message: error.message,
-        status: 'error'
+        status: `error at ${new Date().toLocaleTimeString()}`
       }
     }
   }
@@ -210,7 +203,7 @@ export async function createInvoice (prevState:State, formData : FormData) {
   } catch (error) {
     return {
       ...prevState,
-      status: 'error'
+      status: `error at ${new Date().toLocaleTimeString()}`
     }
   }
   revalidateTag('/dashboard/invoices')
