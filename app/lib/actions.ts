@@ -122,13 +122,16 @@ export async function createCustomer (prevState:CustomerState,formData: FormData
       },
       body: JSON.stringify(customer)
     })
-    if (response.status !== 201) throw new Error('Failed to create customer.')
+    const data = await response.json()
+    if (response.status !== 201) throw new Error(data.message)
     
   } catch (error) {
-    return {
-      ...prevState,
-      message: 'Failed to create customer.',
-      status: 'error'
+    if(error instanceof Error){
+      return {
+        ...prevState,
+        message: error.message,
+        status: 'error'
+      }
     }
   }
   revalidatePath('/dashboard')
