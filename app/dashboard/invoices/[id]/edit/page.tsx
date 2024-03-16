@@ -1,8 +1,8 @@
 /* eslint-disable react/jsx-indent-props */
 import Breadcrumbs from '@/app/ui/invoices/breadcrumbs'
 import { fetchCustomers, fetchInvoiceById } from '@/app/lib/actions'
-import { notFound } from 'next/navigation'
 import InvoiceForm from '@/app/ui/invoices/form'
+import { revalidateTag } from 'next/cache'
 
 export default async function Page({ params }: { params: { id: string } }) {
     const { id } = params
@@ -10,6 +10,8 @@ export default async function Page({ params }: { params: { id: string } }) {
         fetchInvoiceById(id),
         fetchCustomers()
     ])
+    if (invoice === null) revalidateTag('/invoice')
+
     return (
         <main>
             <Breadcrumbs
