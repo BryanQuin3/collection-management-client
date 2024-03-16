@@ -18,7 +18,7 @@ export default function InvoiceForm({
   customers,
   type
 }: {
-  invoice?: Invoice;
+  invoice?: Invoice | null;
   customers: CustomerField[];
   type: 'edit' | 'create';
 }) {
