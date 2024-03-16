@@ -18,7 +18,7 @@ export type Customer = {
 
 export type Invoice = {
   _id: string;
-  customer_id: string;
+  customer_id: Customer;
   amount: number;
   date: string;
   // In TypeScript, this is called a string union type.
@@ -47,11 +47,11 @@ export type LatestInvoiceRaw = Omit<LatestInvoice, 'amount'> & {
 export type InvoicesTable = {
   _id: string;
   customer_id: {
-    _id: string,
-    name: string,
-    email: string,
-    image_url: string
-},
+    _id: string;
+    name: string;
+    email: string;
+    image_url: string;
+  };
   date: string;
   amount: number;
   status: 'pending' | 'paid';
@@ -115,7 +115,6 @@ export type State = {
   status?: string;
 };
 
-
 export type CustomerState = {
   errors?: {
     name?: string[];
@@ -148,5 +147,5 @@ export type CreateUserForm = {
 };
 
 export type LoadingProps = {
-  loading: boolean
-}
+  loading: boolean;
+};
