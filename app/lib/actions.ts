@@ -128,6 +128,14 @@ export async function createCustomer(
         cleanedFormData.append(key, value);
       }
     });
+    // Verificar que el campo de imagen sea una imagen con una extensión válida
+    const image_url = cleanedFormData.get('image_url') as File;
+    if (image_url) {
+      const allowedExtensions = /\.(avif|webp|png|jpg|jpeg)$/;
+      if (!allowedExtensions.test(image_url.name.toLowerCase())) {
+        throw new Error('El archivo de imagen tiene una extensión no válida.');
+      }
+    }
     const response = await fetch(`${BASE_URL}/customers`, {
       method: 'POST',
       body: cleanedFormData,
