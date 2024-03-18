@@ -16,7 +16,7 @@ export default function Form() {
             <div className='rounded-md bg-gray-50 p-4 md:p-6'>
                 {/* Name */}
                 <div className='mb-4'>
-                    <label htmlFor='customer' className='mb-2 block text-sm font-medium'>
+                    <label htmlFor='name' className='mb-2 block text-sm font-medium'>
                         Customer Name
                     </label>
                     <div className='relative'>
@@ -34,7 +34,7 @@ export default function Form() {
 
                 {/* Email */}
                 <div className='mb-4'>
-                    <label htmlFor='amount' className='mb-2 block text-sm font-medium'>
+                    <label htmlFor='email' className='mb-2 block text-sm font-medium'>
                         Customer Email
                     </label>
                     <div className='relative mt-2 rounded-md'>
@@ -52,7 +52,7 @@ export default function Form() {
 
                 {/* Image Url */}
                 <div className='mb-4'>
-                    <label htmlFor='image' className='mb-2 block text-sm font-medium'>
+                    <label htmlFor='image_url' className='mb-2 block text-sm font-medium'>
                         Image
                     </label>
                     <div className='relative mt-2 rounded-md'>
