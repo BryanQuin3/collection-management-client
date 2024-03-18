@@ -302,6 +302,7 @@ export async function fetchInvoicesPages(query: string) {
 
 export async function login(prevState: UserState, formData: FormData) {
   const user = Object.fromEntries(formData.entries()) as UserForm;
+  user.email = user.email.toLowerCase();
   try {
     const response = await fetch(`${BASE_URL}/user/login`, {
       method: 'POST',
@@ -357,6 +358,7 @@ export async function logout() {
 
 export async function register(prevState: UserState, formData: FormData) {
   const user = Object.fromEntries(formData.entries()) as CreateUserForm;
+  user.email = user.email.toLowerCase();
   try {
     const response = await fetch(`${BASE_URL}/user/register`, {
       method: 'POST',
