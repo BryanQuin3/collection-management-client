@@ -122,12 +122,16 @@ export async function createCustomer(
       }
     });
     // Verificar que el campo de imagen sea una imagen con una extensión válida
-    const image_url = cleanedFormData.get('image_url') as File;
-    try {
-      verifyImage(image_url);
-    } catch (error) {
-      if (error instanceof Error) {
-        throw new Error(error.message);
+    const image = cleanedFormData.get('image_url') as File;
+    if (image) {
+      const allowedExtensions = /\.(avif|webp|png|jpg|jpeg)$/;
+      if (!allowedExtensions.test(image.name.toLowerCase())) {
+        throw new Error(
+          'The image must be a .avif, .webp, .png, .jpg, or .jpeg file.',
+        );
+      }
+      if (image.size > 1000000) {
+        throw new Error('The image must be less than 1MB');
       }
     }
     const response = await fetch(`${BASE_URL}/customers`, {
