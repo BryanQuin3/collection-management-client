@@ -96,7 +96,7 @@ export type CustomerField = {
 export type CustomerForm = {
   name: string;
   email: string;
-  image_url: string;
+  image_url: File | null;
 };
 
 export type InvoiceForm = {
