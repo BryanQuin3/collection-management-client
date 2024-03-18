@@ -95,23 +95,16 @@ export async function fetchFilteredCustomers(
   }
 }
 
-export async function verifyImageURL(image_url: string) {
-  try {
-    const response = await fetch(image_url);
-    if (!response.ok) {
-      throw new Error('Invalid image URL.');
+export async function verifyImage(image: File) {
+  if (image) {
+    const allowedExtensions = /\.(avif|webp|png|jpg|jpeg)$/;
+    if (!allowedExtensions.test(image.name.toLowerCase())) {
+      throw new Error(
+        'The image must be a .avif, .webp, .png, .jpg, or .jpeg file.',
+      );
     }
-    const contentType = response.headers.get('content-type');
-    if (!contentType || !contentType.startsWith('image/')) {
-      throw new Error('The URL does not point to an image.');
-    }
-  } catch (error) {
-    if (error instanceof Error) {
-      const message = error.message.toLowerCase();
-      if (message.includes('failed')) error.message = 'Invalid image URL.';
-      return {
-        message: error.message,
-      };
+    if (image.size > 1000000) {
+      throw new Error('The image must be less than 1MB');
     }
   }
 }
@@ -130,12 +123,7 @@ export async function createCustomer(
     });
     // Verificar que el campo de imagen sea una imagen con una extensión válida
     const image_url = cleanedFormData.get('image_url') as File;
-    if (image_url) {
-      const allowedExtensions = /\.(avif|webp|png|jpg|jpeg)$/;
-      if (!allowedExtensions.test(image_url.name.toLowerCase())) {
-        throw new Error('El archivo de imagen tiene una extensión no válida.');
-      }
-    }
+    verifyImage(image_url);
     const response = await fetch(`${BASE_URL}/customers`, {
       method: 'POST',
       body: cleanedFormData,
