@@ -123,7 +123,13 @@ export async function createCustomer(
     });
     // Verificar que el campo de imagen sea una imagen con una extensión válida
     const image_url = cleanedFormData.get('image_url') as File;
-    verifyImage(image_url);
+    try {
+      verifyImage(image_url);
+    } catch (error) {
+      if (error instanceof Error) {
+        throw new Error(error.message);
+      }
+    }
     const response = await fetch(`${BASE_URL}/customers`, {
       method: 'POST',
       body: cleanedFormData,
