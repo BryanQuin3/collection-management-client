@@ -121,13 +121,6 @@ export async function createCustomer(
         cleanedFormData.append(key, value);
       }
     });
-    // Verificar que el campo de imagen sea una imagen con una extensión válida
-    const image = cleanedFormData.get('image_url') as File;
-    if (image.name !== 'undefined') {
-      if (image.size > 1000000) {
-        throw new Error('The image must be less than 1MB');
-      }
-    }
     const response = await fetch(`${BASE_URL}/customers`, {
       method: 'POST',
       body: cleanedFormData,
