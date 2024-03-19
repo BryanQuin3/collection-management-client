@@ -124,12 +124,6 @@ export async function createCustomer(
     // Verificar que el campo de imagen sea una imagen con una extensión válida
     const image = cleanedFormData.get('image_url') as File;
     if (image.name !== 'undefined') {
-      const allowedExtensions = /\.(avif|webp|png|jpg|jpeg)$/;
-      if (!allowedExtensions.test(image.name.toLowerCase())) {
-        throw new Error(
-          'The image must be a .avif, .webp, .png, .jpg, or .jpeg file.',
-        );
-      }
       if (image.size > 1000000) {
         throw new Error('The image must be less than 1MB');
       }
