@@ -114,6 +114,11 @@ export async function createCustomer(
   formData: FormData,
 ) {
   try {
+    const image = formData.get('image_url') as File;
+    const maxFileSize = 1024 * 1024;
+    if (image.size > maxFileSize) {
+      throw new Error('The image must be less than 1MB');
+    }
     // Crear un nuevo FormData solo con los datos del formulario
     const cleanedFormData = new FormData();
     formData.forEach((value, key) => {
