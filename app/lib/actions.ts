@@ -115,15 +115,9 @@ export async function createCustomer(
 ) {
   try {
     // Crear un nuevo FormData solo con los datos del formulario
-    const cleanedFormData = new FormData();
-    formData.forEach((value, key) => {
-      if (key !== '$ACTION_REF_1' && !key.startsWith('$ACTION_1:')) {
-        cleanedFormData.append(key, value);
-      }
-    });
     const response = await fetch(`${BASE_URL}/customers`, {
       method: 'POST',
-      body: cleanedFormData,
+      body: formData,
     });
     const data = await response.json();
     if (response.status !== 201) throw new Error(data.message);

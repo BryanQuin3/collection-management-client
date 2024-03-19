@@ -13,7 +13,7 @@ export default function Form() {
     const [fileSizeError, setFileSizeError] = useState(false);
     // file type validation (avif, webp, png, jpg, jpeg)
     const types = ['image/avif', 'image/webp', 'image/png', 'image/jpg', 'image/jpeg'];
-    const [validateFileType, setValidateFileType] = useState(false);
+    const [validateFileType, setValidateFileType] = useState(true);
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files && event.target.files[0];
@@ -30,7 +30,7 @@ export default function Form() {
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        if (!fileSizeError) {
+        if (!fileSizeError && validateFileType) {
             const formData = new FormData(event.currentTarget);
             dispatch(formData);
             setLoading(true);
@@ -93,14 +93,8 @@ export default function Form() {
                         />
                     </div>
                     {fileSizeError && <p className='mt-2 text-sm text-red-500'>File size should be less than 1MB</p>}
-                    {!validateFileType && <p className='mt-2 text-sm text-red-500'>Invalid file type. Types allowed: {
-                        types.map((type, index) => {
-                            if (index === types.length - 1) {
-                                return type.split('/')[1];
-                            }
-                            return type.split('/')[1] + ', ';
-                        })
-                    }</p>}
+                    {!validateFileType && <p className='mt-2 text-sm text-red-500'>Oops! Please select an image (avif, webp, png, jpg, or jpeg) format.</p>
+                    }
                 </div>
             </div>
             <div id='form-error' aria-live='polite' aria-atomic='true'>
