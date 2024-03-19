@@ -99,7 +99,7 @@ export default function Form() {
                 >
                     Cancel
                 </Link>
-                <Button className={loading ? `cursor-not-allowed` : `cursor-pointer`}>
+                <Button className={loading || fileSizeError ? `cursor-not-allowed` : `cursor-pointer`}>
                     {
                         loading ? 'Creating...' : 'Create Customer'
                     }
