@@ -4,15 +4,35 @@ import { createCustomer } from '@/app/lib/actions'
 import { Button } from '../button'
 import Link from 'next/link'
 import { useLoading } from '@/app/hooks/useLoading'
+import { useState } from 'react'
 
 export default function Form() {
     const initialState = { message: null, errors: {}, status: '' }
     const [state, dispatch] = useFormState(createCustomer, initialState)
     const { loading, setLoading } = useLoading(state.status)
+    const [fileSizeError, setFileSizeError] = useState(false);
 
+    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files && event.target.files[0];
+        const maxSize = 1024 * 1024; // 1MB
+        if (file && file.size > maxSize) {
+            setFileSizeError(true);
+        } else {
+            setFileSizeError(false);
+        }
+    };
+
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        if (!fileSizeError) {
+            const formData = new FormData(event.currentTarget);
+            dispatch(formData);
+            setLoading(true);
+        }
+    };
 
     return (
-        <form action={dispatch} aria-describedby='form-error' onSubmit={() => setLoading(true)}>
+        <form aria-describedby='form-error' onSubmit={handleSubmit}>
             <div className='rounded-md bg-gray-50 p-4 md:p-6'>
                 {/* Name */}
                 <div className='mb-4'>
@@ -61,11 +81,12 @@ export default function Form() {
                             name='image_url'
                             type='file'
                             accept=".avif,.webp,.png,.jpg,.jpeg"
-                            size={1048576}
                             title='select an image file to upload'
+                            onChange={handleFileChange}
                             className='peer block w-full rounded-md border border-gray-200 py-2 pl-4 text-sm outline-2 placeholder:text-gray-500' aria-describedby='image-error'
                         />
                     </div>
+                    {fileSizeError && <p className='mt-2 text-sm text-red-500'>File size should be less than 1MB</p>}
                 </div>
             </div>
             <div id='form-error' aria-live='polite' aria-atomic='true'>
