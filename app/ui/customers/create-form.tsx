@@ -11,14 +11,20 @@ export default function Form() {
     const [state, dispatch] = useFormState(createCustomer, initialState)
     const { loading, setLoading } = useLoading(state.status)
     const [fileSizeError, setFileSizeError] = useState(false);
+    // file type validation (avif, webp, png, jpg, jpeg)
+    const types = ['image/avif', 'image/webp', 'image/png', 'image/jpg', 'image/jpeg'];
+    const [validateFileType, setValidateFileType] = useState(false);
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files && event.target.files[0];
         const maxSize = 1024 * 1024; // 1MB
-        if (file && file.size > maxSize) {
-            setFileSizeError(true);
-        } else {
-            setFileSizeError(false);
+        if (file) {
+            setValidateFileType(types.includes(file.type));
+            if (file.size > maxSize) {
+                setFileSizeError(true);
+            } else {
+                setFileSizeError(false);
+            }
         }
     };
 
@@ -87,6 +93,14 @@ export default function Form() {
                         />
                     </div>
                     {fileSizeError && <p className='mt-2 text-sm text-red-500'>File size should be less than 1MB</p>}
+                    {!validateFileType && <p className='mt-2 text-sm text-red-500'>Invalid file type. Types allowed: {
+                        types.map((type, index) => {
+                            if (index === types.length - 1) {
+                                return type.split('/')[1];
+                            }
+                            return type.split('/')[1] + ', ';
+                        })
+                    }</p>}
                 </div>
             </div>
             <div id='form-error' aria-live='polite' aria-atomic='true'>
@@ -99,7 +113,7 @@ export default function Form() {
                 >
                     Cancel
                 </Link>
-                <Button className={loading || fileSizeError ? `cursor-not-allowed` : `cursor-pointer`}>
+                <Button className={loading || fileSizeError || !validateFileType ? `cursor-not-allowed` : `cursor-pointer`}>
                     {
                         loading ? 'Creating...' : 'Create Customer'
                     }
