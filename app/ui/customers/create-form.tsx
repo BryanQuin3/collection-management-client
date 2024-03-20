@@ -46,7 +46,7 @@ export default function Form() {
                         Customer Name
                     </label>
                     <div className='relative'>
-                        <input id='name' name='name' type='text' placeholder='Peter Milk' className='peer block w-full rounded-md border border-gray-200 py-2 pl-4 text-sm outline-2 placeholder:text-gray-500' aria-describedby='customer-error' required />
+                        <input id='name' name='name' type='text' placeholder='Peter Milk' autoComplete='on' className='peer block w-full rounded-md border border-gray-200 py-2 pl-4 text-sm outline-2 placeholder:text-gray-500' aria-describedby='customer-error' required />
                     </div>
                     <div id='customer-error' aria-live='polite' aria-atomic='true'>
                         {state?.errors?.name &&
@@ -64,7 +64,7 @@ export default function Form() {
                         Customer Email
                     </label>
                     <div className='relative mt-2 rounded-md'>
-                        <input id='email' name='email' type='email' placeholder='example@gmail.com' className='peer block w-full rounded-md border border-gray-200 py-2 pl-4 text-sm outline-2 placeholder:text-gray-500' aria-describedby='amount-error' required />
+                        <input id='email' name='email' type='email' placeholder='example@gmail.com' autoComplete='on' className='peer block w-full rounded-md border border-gray-200 py-2 pl-4 text-sm outline-2 placeholder:text-gray-500' aria-describedby='amount-error' required />
                     </div>
                 </div>
                 <div id='email-error' aria-live='polite' aria-atomic='true'>
