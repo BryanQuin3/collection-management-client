@@ -95,20 +95,6 @@ export async function fetchFilteredCustomers(
   }
 }
 
-export async function verifyImage(image: File) {
-  if (image) {
-    const allowedExtensions = /\.(avif|webp|png|jpg|jpeg)$/;
-    if (!allowedExtensions.test(image.name.toLowerCase())) {
-      throw new Error(
-        'The image must be a .avif, .webp, .png, .jpg, or .jpeg file.',
-      );
-    }
-    if (image.size > 1000000) {
-      throw new Error('The image must be less than 1MB');
-    }
-  }
-}
-
 export async function createCustomer(
   prevState: CustomerState,
   formData: FormData,
